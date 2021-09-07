@@ -1,4 +1,4 @@
-baseURL = 'http://example.org/'
+baseURL = 'https://lively-coast-0cd4d2f00.azurestaticapps.net/'
 languageCode = 'en-us'
 title = 'achirsh blog'
 theme = "github-style"
