@@ -1,4 +1,28 @@
 baseURL = 'https://lively-coast-0cd4d2f00.azurestaticapps.net/'
-languageCode = 'en-us'
+languageCode = "zh-cn"
 title = 'achirsh blog'
 theme = "github-style"
+pygmentsCodeFences = true
+pygmentsUseClasses = true 
+
+[params]
+  author = "Achirsh"
+  description = "In solitude, where we are least alone."
+  github = "achirsh"
+  facebook = ""
+  twitter = ""
+  linkedin = ""
+  instagram = ""
+  tumblr = ""
+  email = ""
+  url = "https://lively-coast-0cd4d2f00.azurestaticapps.net/"
+  keywords = "blog, google analytics"
+  rss = false
+  lastmod = false
+  favicon = "/images/github.png"
+  location = "China"
+  userStatusEmoji = ""
+
+  [[params.links]]
+    title = "Link"
+    href = "https://github.com/achirsh"
