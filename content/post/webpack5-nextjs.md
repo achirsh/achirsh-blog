@@ -5,7 +5,7 @@ draft: false
 summary: "在NextJS中使用Webpack5的微前端"
 ---
 
-# 在NextJS中使用Webpack 5的微前端
+# 在NextJS中使用Webpack 5的微前端（目前在nextjs中使用webpack5）
 
 Webpack5的联合模块使用使创建微前端变得简单。它可以通过实验性功能标志在NextJS 10+中使用，它使集成微前端变得轻而易举。你首先构建一个外部的微前端，并将其作为**Module federated**部署到你选择的目的地。然后你在你的NextJS应用程序中更新一些配置，剩下的由Webpack完成。这有点神奇🦄。
 
