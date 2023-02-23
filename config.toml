@@ -1,4 +1,4 @@
-baseURL = 'https://lively-coast-0cd4d2f00.azurestaticapps.net/'
+baseURL = 'https://blog.achirsh.site/'
 languageCode = "zh-cn"
 title = 'achirsh blog'
 theme = "github-style"
@@ -15,7 +15,7 @@ pygmentsUseClasses = true
   instagram = ""
   tumblr = ""
   email = ""
-  url = "https://lively-coast-0cd4d2f00.azurestaticapps.net/"
+  url = "https://blog.achirsh.site/"
   keywords = "blog, google analytics"
   rss = false
   lastmod = false
