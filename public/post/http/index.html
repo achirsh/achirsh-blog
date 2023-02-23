@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+    <script type="application/javascript" src='https://blog.achirsh.site/js/theme-mode.js'></script>
+    <link rel="stylesheet" href='https://blog.achirsh.site/css/frameworks.min.css' />
+    <link rel="stylesheet" href='https://blog.achirsh.site/css/github.min.css' />
+    <link rel="stylesheet" href='https://blog.achirsh.site/css/github-style.css' />
+    <link rel="stylesheet" href='https://blog.achirsh.site/css/light.css' />
+    <link rel="stylesheet" href='https://blog.achirsh.site/css/dark.css' />
+    <link rel="stylesheet" href='https://blog.achirsh.site/css/syntax.css' />
+    <title>图解http - achirsh blog</title>
+    
+    <link rel="icon" type="image/x-icon" href='/images/github.png'>
+    
+    <meta name="theme-color" content="#1e2327">
+
+    
+    <meta name="description"
+  content="图解http" />
+<meta name="keywords"
+  content='blog, google analytics' />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://blog.achirsh.site/post/http/" />
+
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="图解http - achirsh blog" />
+<meta name="twitter:description"
+  content="图解http" />
+<meta name="twitter:site" content="https://blog.achirsh.site/" />
+<meta name="twitter:creator" content="" />
+<meta name="twitter:image"
+  content="https://blog.achirsh.site/">
+
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="图解http - achirsh blog">
+<meta property="og:description"
+  content="图解http" />
+<meta property="og:url" content="https://blog.achirsh.site/post/http/" />
+<meta property="og:site_name" content="图解http" />
+<meta property="og:image"
+  content="https://blog.achirsh.site/">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+<meta property="article:published_time" content="2021-09-13 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body>
+  <div style="position: relative">
+  <header class="Header js-details-container Details px-3 px-md-4 px-lg-5 flex-wrap flex-md-nowrap open Details--on" style="justify-content: space-between;">
+    <div class="Header-item mobile-none" style="margin-top: -4px; margin-bottom: -4px;">
+      <a class="Header-link" href="https://blog.achirsh.site/">
+        <svg class="octicon" height="32" viewBox="0 0 16 16" version="1.1" width="32">
+          <path fill-rule="evenodd"
+            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+          </path>
+        </svg>
+      </a>
+    </div>
+
+    <div class="Header-item" style="margin-right: 0;">
+      <a href="javascript:void(0)" class="Header-link no-select" onclick="switchTheme()">
+        <svg style="fill: var(--color-profile-color-modes-toggle-moon);" class="no-select" viewBox="0 0 16 16"
+          version="1.1" width="16" height="16">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M4.52208 7.71754C7.5782 7.71754 10.0557 5.24006 10.0557 2.18394C10.0557 1.93498 10.0392 1.68986 10.0074 1.44961C9.95801 1.07727 10.3495 0.771159 10.6474 0.99992C12.1153 2.12716 13.0615 3.89999 13.0615 5.89383C13.0615 9.29958 10.3006 12.0605 6.89485 12.0605C3.95334 12.0605 1.49286 10.001 0.876728 7.24527C0.794841 6.87902 1.23668 6.65289 1.55321 6.85451C2.41106 7.40095 3.4296 7.71754 4.52208 7.71754Z">
+          </path>
+        </svg>
+      </a>
+    </div>
+  </header>
+</div>
+  
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<script src="https://unpkg.com/tippy.js@6"></script>
+<div>
+  <main>
+    <div class="gisthead pagehead bg-gray-light pb-0 pt-3 mb-4">
+      <div class="px-0">
+        <div class="mb-3 d-flex px-3 px-md-3 px-lg-5">
+          <div class="flex-auto min-width-0 width-fit mr-3">
+            <div class="d-flex">
+              <div class="d-none d-md-block">
+                <a class="avatar mr-2 flex-shrink-0" href="https://blog.achirsh.site/">
+                  <img class=" avatar-user"
+                    src="https://blog.achirsh.site/images/avatar.png"
+                    width="32" height="32"></a>
+              </div>
+              <div class="d-flex flex-column">
+                <h1 class="break-word f3 text-normal mb-md-0 mb-1">
+                  <span class="author">
+                    <a href="https://blog.achirsh.site/">achirsh</a></span><span
+                    class="path-divider">/</span><strong class="css-truncate-target mr-1" style="max-width: 410px"><a
+                      href="https://blog.achirsh.site/post/http/">图解http</a></strong>
+                </h1>
+                <div class="note m-0">
+                  Created <relative-time datetime="Mon, 13 Sep 2021 00:00:00 &#43;0000"
+                    class="no-wrap">
+                    Mon, 13 Sep 2021 00:00:00 &#43;0000</relative-time>
+
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-lg px-3 new-discussion-timeline">
+      <div class="repository-content gist-content">
+        <div>
+          <div class="js-gist-file-update-container js-task-list-container file-box">
+            <div id="file-pytest" class="file my-2">
+              <div id="post-header" class="file-header d-flex flex-md-items-center flex-items-start sticky-header">
+                <div class="file-info d-flex flex-md-items-center flex-items-start flex-order-1 flex-auto">
+                  <div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0">
+                    
+                    <summary id="toc-toggle" class="btn btn-octicon m-0 mr-2 p-2" aria-haspopup="menu" aria-label="Table of Contents" role="button">
+                      <svg aria-hidden="true" viewBox="0 0 16 16" height="16" width="16" class="octicon octicon-list-unordered">
+                        <path fill-rule="evenodd" d="M2 4a1 1 0 100-2 1 1 0 000 2zm3.75-1.5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zM3 8a1 1 0 11-2 0 1 1 0 012 0zm-1 6a1 1 0 100-2 1 1 0 000 2z"></path>
+                      </svg>
+                    </summary>
+                          1283 Words
+                    
+
+                  </div>
+                  <div class="file-actions flex-order-2 pt-0">
+                    
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="Box-body px-5 pb-5">
+                <article class="markdown-body entry-content container-lg"><h1 id="图解http">图解http</h1>
+<h2 id="网络基础tcpip">网络基础TCP/IP</h2>
+<p>通常使用的网络（包括互联网）是在TCP/IP协议族的基础上运作的。而HTTP属于它内部的一个子集。</p>
+<p>计算机与网络设备要相互通信，双方就必须基于相同的方法。
+protocol</p>
+<p>TCP/IP的分层管理</p>
+<p>TCP/IP协议族按层次分别分为以下4层：应用层、传输层、网络层和数据链路层</p>
+<p>应用层：应用层决定了向用户提供应用服务时通信的活动。
+（TCP/IP协议族内预存了各类通用的应用服务。比如，FTP（文件传输协议）和DNS(域名系统)服务就是其中两类，HTTP协议也处于该层）</p>
+<p>传输层：传输层对上层应用层，提供处于网络连接中的两台计算机之间的数据传输
+（在传输层有两个性质不同的协议：TCP(传输控制协议)和UDP(用户数据报协议)）</p>
+<p>网络层：又名网络互连层，网络层用来处理在网络上流动的数据包。数据包是网络传输的最小数据单位。
+该层规定了通过怎样的路径（所谓的传输路线）到达对方计算机，并把数据包传送给对方</p>
+<p>与对方计算机之间通过多台计算机或网络设备进行传输时，网络层所起的作用就是在众多的选项内选择一条传输路线。</p>
+<p>链路层：又名数据链路层，网络接口层，用来处理连接网络的硬件部分</p>
+<pre tabindex="0"><code>三次握手：用TCP协议把数据包送出去后，TCP不会对传送后的情况置之不理，它一定会向对方确认是否成功送达。
+握手过程中使用了TCP的标志 SYN - ACK
+
+DNS：DNS协议提供通过域名查找IP地址，或逆向从IP地址反查域名的服务
+</code></pre><pre tabindex="0"><code>HTTP协议的职责：生成针对目标Web服务器的HTTP请求报文
+TCP协议的职责：为了方便通信，将HTTP请求报文分割成报文段，按序号分为多个报文段，把每个报文段可靠的传给对方
+IP协议的职责：搜索对方的地址，一边中转一边传送
+</code></pre><pre tabindex="0"><code>URI用字符串标识某一互联网资源，而URL标识资源的地点。可见URL是URI的子集
+</code></pre><pre tabindex="0"><code>获取部分内容的范围请求
+
+如果下载过程中遇到网络中断的情况，那就必须重头开始。为了解决上述问题，需要一种
+可恢复的机制。所谓恢复是指能从之前下载中断处恢复下载。
+
+要实现该功能需要指定下载的实体范围。像这样，指定范围发送的请求叫做范围请求
+
+Content-Type:multipart/byteranges
+</code></pre><pre tabindex="0"><code>内容协商机制是指客户端和服务器端就响应的资源内容进行交涉，然后提供给客户端
+最合适的资源。内容协商会以响应资源的语言、字符集、编码方式等作为判断的基准。
+
+服务器驱动协商
+客户端驱动协商
+透明协商
+</code></pre><pre tabindex="0"><code>1xx 信息性状态码     接收的请求正在处理
+2xx 成功状态码       请求正常处理完毕
+3xx 重定向状态码     需要进行附加操作以完成请求
+4xx 客户端错误状态码 服务器无法处理请求
+5xx 服务器错误状态码 服务器处理请求出错
+</code></pre><pre tabindex="0"><code>200 OK                 表示请求被正常处理了
+204 No Content         表示请求处理成功，但没有资源可返回
+206 Partial Content    表示客户端进行了范围请求
+301 Moved Permanently  永久性重定向
+302 Found              临时性重定向
+303 See Other          表示由于请求对应的资源存在着另一个URI，应使用GET方法定向获取请求的资源
+304 Not Modified       
+307 Temporary Redirect    临时重定向
+400 Bad Request           表示请求报文中存在语法错误
+401 Unauthorized          表示发送的请求需要有通过HTTP认证的认证信息
+403 Forbidden             表示对请求资源的访问被服务器拒绝了
+404 Not Found             表示服务器上无法找到请求的资源
+500 Internal Server Error 表示服务器端在执行请求时发生了错误
+503 Service Unavailable   表示服务器暂时处于超负荷或正在进行停机维护，现在无法处理请求
+</code></pre></article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script>
+ 
+ 
+ 
+ window.onload = function () {
+   const header = document.getElementById('post-header');
+   const headerHeight = header.offsetHeight;
+   
+   document.documentElement.style.scrollPaddingTop = headerHeight + 10 + "px";
+ }
+
+ const tocToggleButton = document.getElementById("toc-toggle");
+
+ const tippyInstance = tippy('#toc-toggle', {
+  trigger: 'click',
+  content: '<div id="table-of-contents">\u003cnav id=\u0022TableOfContents\u0022\u003e\n  \u003cul\u003e\n    \u003cli\u003e\u003ca href=\u0022#网络基础tcpip\u0022\u003e网络基础TCP\/IP\u003c\/a\u003e\u003c\/li\u003e\n  \u003c\/ul\u003e\n\u003c\/nav\u003e</div>',
+  allowHTML: true,
+  placement: 'bottom-start',
+  interactive: true,
+  arrow: false,
+  maxWidth: "none",
+  onHide: function () { tocToggleButton.classList.remove("hover"); },
+  onShow: function () { tocToggleButton.classList.add("hover"); },
+  onShown: function () {
+    selectTableOfContentsOption();
+
+    if (window.hasSetupTableOfContentsListeners) {
+      return;
+    }
+
+    const tableOfContents = document.getElementById("table-of-contents");
+    tableOfContents.addEventListener('click', function () {
+      
+      tippyInstance[0].hide();
+    });
+
+    window.hasSetupTableOfContentsListeners = true;
+  }
+ });
+
+ function selectTableOfContentsOption () {
+   const optionSelectedClass = 'table-of-contents-option-selected';
+
+   const tableOfContentsOptions = document.querySelectorAll("#table-of-contents > nav > ul li");
+
+   for (const option of tableOfContentsOptions) {
+     
+
+     const [child] = option.children;
+     if (child.tagName.toLowerCase() !== 'a') {
+       continue;
+     }
+
+     if (window.location.href === child.href) {
+       child.classList.add(optionSelectedClass);
+     } else {
+       child.classList.remove(optionSelectedClass);
+     }
+   }
+ }
+
+ window.onhashchange = selectTableOfContentsOption;
+</script>
+
+
+</body>
+
+<script type="application/javascript" src="https://blog.achirsh.site/js/github-style.js"></script>
+
+
+
+</html>

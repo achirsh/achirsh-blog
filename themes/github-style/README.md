@@ -107,9 +107,6 @@ Then the [katex script](https://katex.org/docs/autorender.html) will auto render
 display inline \\( ... \\)
 display block $$ ... $$
 ```
-
-![latex example](images/latex_example.png)
-
 ## config.toml example
 
 ```toml
@@ -125,15 +122,9 @@ pygmentsUseClasses = true
   author = "MeiK"
   description = "In solitude, where we are least alone."
   github = "MeiK2333"
-  facebook = "MeiK2333"
-  twitter = "MeiK2333"
-  linkedin = "MeiK2333"
-  instagram = "MeiK2333"
-  tumblr = "MeiK2333"
   email = "meik2333@gmail.com"
   url = "https://meik2333.com"
   keywords = "blog, google analytics"
-  rss = true
   lastmod = true
   userStatusEmoji = "😀"
   favicon = "/images/github.png"

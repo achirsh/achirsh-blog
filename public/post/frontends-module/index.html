@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+    <script type="application/javascript" src='https://blog.achirsh.site/js/theme-mode.js'></script>
+    <link rel="stylesheet" href='https://blog.achirsh.site/css/frameworks.min.css' />
+    <link rel="stylesheet" href='https://blog.achirsh.site/css/github.min.css' />
+    <link rel="stylesheet" href='https://blog.achirsh.site/css/github-style.css' />
+    <link rel="stylesheet" href='https://blog.achirsh.site/css/light.css' />
+    <link rel="stylesheet" href='https://blog.achirsh.site/css/dark.css' />
+    <link rel="stylesheet" href='https://blog.achirsh.site/css/syntax.css' />
+    <title>前端模块化iife，CJS，AMD，UMD，ESM的区别 - achirsh blog</title>
+    
+    <link rel="icon" type="image/x-icon" href='/images/github.png'>
+    
+    <meta name="theme-color" content="#1e2327">
+
+    
+    <meta name="description"
+  content="前端模块化iife，CJS，AMD，UMD，ESM的区别" />
+<meta name="keywords"
+  content='blog, google analytics' />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://blog.achirsh.site/post/frontends-module/" />
+
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="前端模块化iife，CJS，AMD，UMD，ESM的区别 - achirsh blog" />
+<meta name="twitter:description"
+  content="前端模块化iife，CJS，AMD，UMD，ESM的区别" />
+<meta name="twitter:site" content="https://blog.achirsh.site/" />
+<meta name="twitter:creator" content="" />
+<meta name="twitter:image"
+  content="https://blog.achirsh.site/">
+
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="前端模块化iife，CJS，AMD，UMD，ESM的区别 - achirsh blog">
+<meta property="og:description"
+  content="前端模块化iife，CJS，AMD，UMD，ESM的区别" />
+<meta property="og:url" content="https://blog.achirsh.site/post/frontends-module/" />
+<meta property="og:site_name" content="前端模块化iife，CJS，AMD，UMD，ESM的区别" />
+<meta property="og:image"
+  content="https://blog.achirsh.site/">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+<meta property="article:published_time" content="2021-10-06 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body>
+  <div style="position: relative">
+  <header class="Header js-details-container Details px-3 px-md-4 px-lg-5 flex-wrap flex-md-nowrap open Details--on" style="justify-content: space-between;">
+    <div class="Header-item mobile-none" style="margin-top: -4px; margin-bottom: -4px;">
+      <a class="Header-link" href="https://blog.achirsh.site/">
+        <svg class="octicon" height="32" viewBox="0 0 16 16" version="1.1" width="32">
+          <path fill-rule="evenodd"
+            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+          </path>
+        </svg>
+      </a>
+    </div>
+
+    <div class="Header-item" style="margin-right: 0;">
+      <a href="javascript:void(0)" class="Header-link no-select" onclick="switchTheme()">
+        <svg style="fill: var(--color-profile-color-modes-toggle-moon);" class="no-select" viewBox="0 0 16 16"
+          version="1.1" width="16" height="16">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M4.52208 7.71754C7.5782 7.71754 10.0557 5.24006 10.0557 2.18394C10.0557 1.93498 10.0392 1.68986 10.0074 1.44961C9.95801 1.07727 10.3495 0.771159 10.6474 0.99992C12.1153 2.12716 13.0615 3.89999 13.0615 5.89383C13.0615 9.29958 10.3006 12.0605 6.89485 12.0605C3.95334 12.0605 1.49286 10.001 0.876728 7.24527C0.794841 6.87902 1.23668 6.65289 1.55321 6.85451C2.41106 7.40095 3.4296 7.71754 4.52208 7.71754Z">
+          </path>
+        </svg>
+      </a>
+    </div>
+  </header>
+</div>
+  
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<script src="https://unpkg.com/tippy.js@6"></script>
+<div>
+  <main>
+    <div class="gisthead pagehead bg-gray-light pb-0 pt-3 mb-4">
+      <div class="px-0">
+        <div class="mb-3 d-flex px-3 px-md-3 px-lg-5">
+          <div class="flex-auto min-width-0 width-fit mr-3">
+            <div class="d-flex">
+              <div class="d-none d-md-block">
+                <a class="avatar mr-2 flex-shrink-0" href="https://blog.achirsh.site/">
+                  <img class=" avatar-user"
+                    src="https://blog.achirsh.site/images/avatar.png"
+                    width="32" height="32"></a>
+              </div>
+              <div class="d-flex flex-column">
+                <h1 class="break-word f3 text-normal mb-md-0 mb-1">
+                  <span class="author">
+                    <a href="https://blog.achirsh.site/">achirsh</a></span><span
+                    class="path-divider">/</span><strong class="css-truncate-target mr-1" style="max-width: 410px"><a
+                      href="https://blog.achirsh.site/post/frontends-module/">前端模块化iife，CJS，AMD，UMD，ESM的区别</a></strong>
+                </h1>
+                <div class="note m-0">
+                  Created <relative-time datetime="Wed, 06 Oct 2021 00:00:00 &#43;0000"
+                    class="no-wrap">
+                    Wed, 06 Oct 2021 00:00:00 &#43;0000</relative-time>
+
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-lg px-3 new-discussion-timeline">
+      <div class="repository-content gist-content">
+        <div>
+          <div class="js-gist-file-update-container js-task-list-container file-box">
+            <div id="file-pytest" class="file my-2">
+              <div id="post-header" class="file-header d-flex flex-md-items-center flex-items-start sticky-header">
+                <div class="file-info d-flex flex-md-items-center flex-items-start flex-order-1 flex-auto">
+                  <div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0">
+                    
+                    <summary id="toc-toggle" class="btn btn-octicon m-0 mr-2 p-2" aria-haspopup="menu" aria-label="Table of Contents" role="button">
+                      <svg aria-hidden="true" viewBox="0 0 16 16" height="16" width="16" class="octicon octicon-list-unordered">
+                        <path fill-rule="evenodd" d="M2 4a1 1 0 100-2 1 1 0 000 2zm3.75-1.5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zM3 8a1 1 0 11-2 0 1 1 0 012 0zm-1 6a1 1 0 100-2 1 1 0 000 2z"></path>
+                      </svg>
+                    </summary>
+                          2135 Words
+                    
+
+                  </div>
+                  <div class="file-actions flex-order-2 pt-0">
+                    
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="Box-body px-5 pb-5">
+                <article class="markdown-body entry-content container-lg"><h1 id="前端模块化iifecjsamdumdesm的区别">前端模块化iife，CJS，AMD，UMD，ESM的区别</h1>
+<h2 id="commonjscjs">CommonJs/CJS</h2>
+<pre><code>CommonJS是一种规范。
+</code></pre>
+<h3 id="概念">概念</h3>
+<p>针对环境：web浏览器外的（非web浏览器环境的）javacript项目
+项目目标：javascript生态的模块化解决方案
+主要示例：尤其是使用nodejs用于服务端javascript编程
+浏览器：浏览器不能直接执行commonjs代码，需要通过编译转化
+如何识别：我们可以通过是否使用require()和module.exports来识别是否使用了commonjs</p>
+<pre><code>CommonJS并没有称为ECMA组织发布的模块化标准(ES Module)，但又很有ECMA成员参与其中。
+</code></pre>
+<h3 id="特点">特点</h3>
+<pre><code>1、所有代码都运行在模块作用域中，不会污染全局变量
+2、模块按照在代码中的顺序，一次同步加载
+3、模块会在运行时且执行，执行得到对象A，后续通过require获取的都是对对象A值的拷贝（换句话说，模块可以多次加载，在第一次加载时执行并缓存其结果，后续加载会直接返回该结果），要想模块再次执行，必须清除缓存。
+</code></pre>
+<h3 id="nodejs的模块化">NodeJS的模块化</h3>
+<pre><code>1、在执行模块代码之前，NodeJS会使用如下的函数封装器将其封装
+
+通过闭包的形式避免了变量污染；
+提供了看似全局，实际上是模块特定的变量；
+
+(function(exports, require, module, __filename, __dirname) {
+    // 模块的代码实际上在这里
+})
+
+2、可以通过module.exports导出模块内容
+3、变量exports是对module.exports的引用，所以不能对exports有赋值操作
+
+exports = module.exports;
+exports变量是在模块的文件级作用域内可用的，且在模块执行之前赋值给module.exports
+因此module.exports.f=...可以间接地携程exports.f=...
+
+// 错误用法，exports被重复赋值，此function并未被导出
+exports = function(x) {console.log(x)}
+
+// 正确用法
+exports.a = function(x) {console.log(x)}
+
+// 如果一个模块的对外接口，就是一个单一的值，最好不要使用exports输出，最好使用module.exports输出
+
+4、通过require(id)引入模块、JSON、或本地文件
+
+5、require.cache被引入的模块将被缓存到这个对象中，如果删除该对象的某个模块会导致下次require的时候重新加载该模块。
+</code></pre>
+<h2 id="amdasynchronous-module-definition">AMD（Asynchronous Module Definition）</h2>
+<pre><code>javacript的异步模块化定义方案
+</code></pre>
+<h3 id="概念-1">概念</h3>
+<pre><code>针对环境：web浏览器
+项目目标：javascript生态的模块化解决方案
+主要示例：require.js
+如何识别：我们可以通过是否使用define(id?, dependencies?, factory)来识别是否使用了AMD规范
+
+// 其中对于require, exports, beta这几个依赖可不填
+define('alpha', ['require', 'exports', 'beta'], function(require, exports, beta) {
+    exports.verb = function() {
+        return beta.verb()
+        // or
+        return require('beta').verb()
+    }
+})
+</code></pre>
+<h3 id="特点-1">特点</h3>
+<pre><code>1、所有代码都运行在块作用域中，不会污染全局变量
+2、模块会被异步加载
+3、依赖模块加载完成后，会立即执行其回调函数（即factory函数）
+4、主模块会等所有的依赖模块加载完成后，再调用其对应的回调函数（依赖前置）
+</code></pre>
+<h3 id="requirejs的模块加载原理">require.js的模块加载原理</h3>
+<h4 id="简单使用">简单使用</h4>
+<p>首先简单介绍一下require.js的使用：</p>
+<pre><code>1、在html文件内，需要有一个script标签引入require.js以及项目的入口文件main.js
+2、文件main.js里的就是项目的主要逻辑了
+</code></pre>
+<h4 id="原理介绍">原理介绍</h4>
+<pre><code>不过RequireJS从2.0开始，也改成了可以延迟执行
+</code></pre>
+<p>目的：</p>
+<pre><code>理解require使用script标签
+关于script标签是否加载成功可以通过onload事件来判断
+</code></pre>
+<h2 id="umduniversal-module-definition">UMD（Universal Module Definition）</h2>
+<pre><code>UMD提供了支持多种风格的“通用”模式，在兼容CommonJS和AMD规范的同时，还兼容全局引用的方式。
+
+(function (root, factory) {
+    if (typeof define === &quot;function&quot; &amp;&amp; define.amd) {
+        define([&quot;jquery&quot;, &quot;underscore&quot;], factory);
+    } else if (typeof exports === &quot;object&quot;) {
+        module.exports = factory(require(&quot;jquery&quot;), require(&quot;underscore&quot;));
+    } else {
+        root.Requester = factory(root.$, root._);
+    }
+}(this, function ($, _) {
+    // this is where I defined my module implementation
+
+    var Requester = { // ... };
+
+    return Requester;
+}));
+</code></pre>
+<h3 id="原理">原理</h3>
+<pre><code>实现原理很简单
+
+1、判断是否支持AMD，若存在则使用AMD方式加载模块，否则继续步骤2
+2、判断是否支持commonjs，若存在则使用node.js的模块格式，否则继续步骤3
+3、将模块公开到全局(window或global)
+</code></pre>
+<h2 id="esm">ESM</h2>
+<pre><code>ES Module是用于处理模块的ECMAScript标准。现代浏览器（高版本）以基本支持ES Module。
+
+&lt;script type=&quot;module&quot; src=&quot;index.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+<h3 id="特点-2">特点</h3>
+<pre><code>1、所有代码都运行在模块作用域中，不会污染全局变量
+2、在编译时输出模块
+3、输出的模块内容为只读，不可修改
+4、不会缓存模块结果，每次都会动态执行模块内容
+</code></pre>
+<h3 id="es6的import--export">ES6的import &amp; export</h3>
+<pre><code>1、import语句会被提升
+2、import的变量都是只读的
+3、import是静态执行，所以不用表达式
+4、import语句支持singleton模式（如果多次重复执行同一句import语句，那么只会执行一次，而不会执行多次）
+5、export需要输出一个对象或变量声明语句
+6、export default相当于输出了一个名叫default的变量/对象
+7、export与import连用
+</code></pre>
+<h2 id="该怎么实现">该怎么实现？</h2>
+<h3 id="只支持nodejs的require写法">只支持NodeJS的require写法</h3>
+<pre><code>package.json: 
+    main: 'index.js'
+其中index.js使用cjs写法(module.exports = xxx)
+</code></pre>
+<h3 id="只支持nodejs的import写法">只支持NodeJS的import写法</h3>
+<pre><code>package.json: 
+    main: 'index.mjs' 或 type: 'module', main: 'index.js'
+其中index.mjs或index.js使用esm写法(export default xxx)
+</code></pre>
+<h3 id="同时支持nodejs的require和import">同时支持NodeJS的require和import</h3>
+</article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script>
+ 
+ 
+ 
+ window.onload = function () {
+   const header = document.getElementById('post-header');
+   const headerHeight = header.offsetHeight;
+   
+   document.documentElement.style.scrollPaddingTop = headerHeight + 10 + "px";
+ }
+
+ const tocToggleButton = document.getElementById("toc-toggle");
+
+ const tippyInstance = tippy('#toc-toggle', {
+  trigger: 'click',
+  content: '<div id="table-of-contents">\u003cnav id=\u0022TableOfContents\u0022\u003e\n  \u003cul\u003e\n    \u003cli\u003e\u003ca href=\u0022#commonjscjs\u0022\u003eCommonJs\/CJS\u003c\/a\u003e\n      \u003cul\u003e\n        \u003cli\u003e\u003ca href=\u0022#概念\u0022\u003e概念\u003c\/a\u003e\u003c\/li\u003e\n        \u003cli\u003e\u003ca href=\u0022#特点\u0022\u003e特点\u003c\/a\u003e\u003c\/li\u003e\n        \u003cli\u003e\u003ca href=\u0022#nodejs的模块化\u0022\u003eNodeJS的模块化\u003c\/a\u003e\u003c\/li\u003e\n      \u003c\/ul\u003e\n    \u003c\/li\u003e\n    \u003cli\u003e\u003ca href=\u0022#amdasynchronous-module-definition\u0022\u003eAMD（Asynchronous Module Definition）\u003c\/a\u003e\n      \u003cul\u003e\n        \u003cli\u003e\u003ca href=\u0022#概念-1\u0022\u003e概念\u003c\/a\u003e\u003c\/li\u003e\n        \u003cli\u003e\u003ca href=\u0022#特点-1\u0022\u003e特点\u003c\/a\u003e\u003c\/li\u003e\n        \u003cli\u003e\u003ca href=\u0022#requirejs的模块加载原理\u0022\u003erequire.js的模块加载原理\u003c\/a\u003e\u003c\/li\u003e\n      \u003c\/ul\u003e\n    \u003c\/li\u003e\n    \u003cli\u003e\u003ca href=\u0022#umduniversal-module-definition\u0022\u003eUMD（Universal Module Definition）\u003c\/a\u003e\n      \u003cul\u003e\n        \u003cli\u003e\u003ca href=\u0022#原理\u0022\u003e原理\u003c\/a\u003e\u003c\/li\u003e\n      \u003c\/ul\u003e\n    \u003c\/li\u003e\n    \u003cli\u003e\u003ca href=\u0022#esm\u0022\u003eESM\u003c\/a\u003e\n      \u003cul\u003e\n        \u003cli\u003e\u003ca href=\u0022#特点-2\u0022\u003e特点\u003c\/a\u003e\u003c\/li\u003e\n        \u003cli\u003e\u003ca href=\u0022#es6的import--export\u0022\u003eES6的import \u0026amp; export\u003c\/a\u003e\u003c\/li\u003e\n      \u003c\/ul\u003e\n    \u003c\/li\u003e\n    \u003cli\u003e\u003ca href=\u0022#该怎么实现\u0022\u003e该怎么实现？\u003c\/a\u003e\n      \u003cul\u003e\n        \u003cli\u003e\u003ca href=\u0022#只支持nodejs的require写法\u0022\u003e只支持NodeJS的require写法\u003c\/a\u003e\u003c\/li\u003e\n        \u003cli\u003e\u003ca href=\u0022#只支持nodejs的import写法\u0022\u003e只支持NodeJS的import写法\u003c\/a\u003e\u003c\/li\u003e\n        \u003cli\u003e\u003ca href=\u0022#同时支持nodejs的require和import\u0022\u003e同时支持NodeJS的require和import\u003c\/a\u003e\u003c\/li\u003e\n      \u003c\/ul\u003e\n    \u003c\/li\u003e\n  \u003c\/ul\u003e\n\u003c\/nav\u003e</div>',
+  allowHTML: true,
+  placement: 'bottom-start',
+  interactive: true,
+  arrow: false,
+  maxWidth: "none",
+  onHide: function () { tocToggleButton.classList.remove("hover"); },
+  onShow: function () { tocToggleButton.classList.add("hover"); },
+  onShown: function () {
+    selectTableOfContentsOption();
+
+    if (window.hasSetupTableOfContentsListeners) {
+      return;
+    }
+
+    const tableOfContents = document.getElementById("table-of-contents");
+    tableOfContents.addEventListener('click', function () {
+      
+      tippyInstance[0].hide();
+    });
+
+    window.hasSetupTableOfContentsListeners = true;
+  }
+ });
+
+ function selectTableOfContentsOption () {
+   const optionSelectedClass = 'table-of-contents-option-selected';
+
+   const tableOfContentsOptions = document.querySelectorAll("#table-of-contents > nav > ul li");
+
+   for (const option of tableOfContentsOptions) {
+     
+
+     const [child] = option.children;
+     if (child.tagName.toLowerCase() !== 'a') {
+       continue;
+     }
+
+     if (window.location.href === child.href) {
+       child.classList.add(optionSelectedClass);
+     } else {
+       child.classList.remove(optionSelectedClass);
+     }
+   }
+ }
+
+ window.onhashchange = selectTableOfContentsOption;
+</script>
+
+
+</body>
+
+<script type="application/javascript" src="https://blog.achirsh.site/js/github-style.js"></script>
+
+
+
+</html>

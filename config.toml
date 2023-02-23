@@ -6,21 +6,15 @@ pygmentsCodeFences = true
 pygmentsUseClasses = true 
 
 [params]
-  author = "Achirsh"
-  description = "In solitude, where we are least alone."
+  author = "achirsh"
+  description = ""
   github = "achirsh"
-  facebook = ""
-  twitter = ""
-  linkedin = ""
-  instagram = ""
-  tumblr = ""
   email = ""
-  url = "https://blog.achirsh.site/"
+  url = "https://blog.achirsh.site"
   keywords = "blog, google analytics"
-  rss = false
   lastmod = false
   favicon = "/images/github.png"
-  location = "China"
+  location = "中国"
   userStatusEmoji = ""
 
   [[params.links]]
